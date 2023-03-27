@@ -1,14 +1,3 @@
-/**
- * @file reversi.c
- * @author Charles Henville
- * @brief This file is used for APS105 Lab 8. 2023W version
- * @date 2023-03-14
- *
- */
-#if !defined(TESTER_P1) && !defined(TESTER_P2)
-#include "reversi.h"
-#endif
-
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdlib.h>
@@ -35,42 +24,8 @@ void printBoard(char board[][26], int n)
 
 void updatePos(int *row, int *col, int dRow, int dCol)
 {
-    if (dRow == 1 && dCol == -1)
-    {
-        *row += 1;
-        *col -= 1;
-    }
-    if (dRow == 1 && dCol == 0)
-    {
-        *row += 1;
-    }
-    if (dRow == 1 && dCol == 1)
-    {
-        *row += 1;
-        *col += 1;
-    }
-    if (dRow == 0 && dCol == -1)
-    {
-        *col -= 1;
-    }
-    if (dRow == 0 && dCol == 1)
-    {
-        *col += 1;
-    }
-    if (dRow == -1 && dCol == -1)
-    {
-        *row -= 1;
-        *col -= 1;
-    }
-    if (dRow == -1 && dCol == 0)
-    {
-        *row -= 1;
-    }
-    if (dRow == -1 && dCol == 1)
-    {
-        *row -= 1;
-        *col += 1;
-    }
+    *row+=dRow;
+    *col+=dCol;
 }
 
 bool positionInBounds(int n, int row, int col)
@@ -169,9 +124,6 @@ int updateBoard(char *board, int n, char colToPlace, int row, int col)
 
 int makeMove(char board[26][26], int n, char turn, int *row, int *col, int *movesAvailable)
 {
-    // The score for each candidate position is defined as the total number of the human player’s tiles that
-    // would be flipped if the computer were to lay a tile at that position.
-
     bool flag = false;
     char boardFreshCopy[26][26];
     char boardSto[26][26];
@@ -258,7 +210,6 @@ int *getMovesList(char board[26][26], int n, char turn)
         }
     }
 
-    // Get a list of legal moves
     for (int i = 0; i < n; i++)
     {
         for (int j = 0; j < n; j++)
@@ -288,8 +239,6 @@ int *getMovesList(char board[26][26], int n, char turn)
 
     return movesAvailable;
 }
-
-#ifndef TESTER_P2
 
 int main(void)
 {
@@ -349,7 +298,6 @@ int main(void)
 
             if (*(currentMovesList) != 100)
             {
-
                 makeMove(board, n, currentMove, &compRow, &compCol, currentMovesList);
                 printf("Computer places %c at %c%c.\n", computerColour, (char)(compRow + 97), (char)(compCol + 97));
                 updateBoard(&board[0][0], n, computerColour, compRow, compCol);
@@ -472,4 +420,3 @@ int main(void)
     printf("%c player wins.", winner);
     return 0;
 }
-#endif
